@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1> {{user.first_name}} {{last_name.id}} </h1>
+<form action = '/hello/{{user.id}}/edit' method ="POST">
+    <label for="First"> First Name:</label>
+    <input type="text" name = "First" id = "First" value ="{{user.first_name}}">
+    <label for="Last"> Last Name:</label>
+    <input type="text" name = "Last" id = "Last" value = "{{user.last_name}}">
+    <label for="ImgUrl"> Image Url:</label>
+    <input type="url" name = "ImgUrl" id = "ImgUrl" value = "{{user.image_url}}">
+    <button type= "submit">Update</button>
+</form>
+<a href="http://127.0.0.1:5000/users/{{user.id}}">
+    <button> Cancel </button>
+</a>
+{% endblock %}

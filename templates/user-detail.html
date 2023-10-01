@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> {{user.first_name}} {{user.last_name}} </h1>
+<img src='{{user.image_url}}' width="200px" height="200px">
+<a href="http://127.0.0.1:5000/hello/{{user.id}}/edit">
+<button> Edit </button>
+</a>
+<a href="http://127.0.0.1:5000/hello/{{user.id}}/delete">
+<button> Delete </button>
+</a>
+{% endblock %}

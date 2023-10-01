@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> Create a user! </h1>
+<form action = '/users_form' method ="POST">
+    <label for="First"> First Name:</label>
+    <input type="text" name = "First" id = "First">
+    <label for="Last"> Last Name:</label>
+    <input type="text" name = "Last" id = "Last">
+    <label for="ImgUrl"> Image Url:</label>
+    <input type="url" name = "ImgUrl" id = "ImgUrl">
+    <button type= "submit">Add</button>
+</form>
+<a href="http://127.0.0.1:5000/users">
+    <button> Cancel </button>
+</a>
+{% endblock %}
