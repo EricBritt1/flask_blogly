@@ -2,7 +2,7 @@
 
 from flask import Flask, request, render_template, redirect, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
-from models import db, connect_db, Users
+from models import db, connect_db, Users, Posts
 from flask_sqlalchemy import SQLAlchemy
 
 
@@ -50,7 +50,8 @@ def get_users_form_info():
 @app.route('/users/<int:user_id>')
 def show_user(user_id):
     user = Users.query.get_or_404(user_id)
-    return render_template('user-detail.html', user=user)
+    posts = Posts.query.all()
+    return render_template('user-detail.html', user=user, posts=posts)
 
 @app.route('/hello/<int:user_id>/edit')
 def test_template(user_id):
@@ -68,11 +69,35 @@ def updated_user(user_id):
 
     return redirect(f'/users/{user_id}')
 
-@app.route('/hello/<int:user_id>/delete')
+@app.route('/hello/<int:user_id>/delete', methods = ['GET','POST'])
 def delete_user(user_id):
+    post = Posts.query.get_or_404(user_id)
+    db.session.delete(post)
+    db.session.commit()
     user = Users.query.get_or_404(user_id)
     db.session.delete(user)
     db.session.commit()
-    return redirect('/users')
+    
+    return redirect('/')
 
+@app.route('/users/<int:user_id>/posts/new')
+def show_post_form(user_id):
+    user = Users.query.get_or_404(user_id)
+    return render_template('post_form.html', user=user)
 
+# In solution for this specific route user=user inside of new_post. For some reason the argument didn't work properly. How could I fix that?
+@app.route('/users/<int:user_id>/posts/new', methods = ["POST"] )
+def result_show_post_form(user_id):
+    user = Users.query.get_or_404(user_id)
+    new_post = Posts(title=request.form['Title'], content=request.form['Content'], user_id=user.id)
+    
+    db.session.add(new_post)
+    db.session.commit()
+
+    return redirect(f'/users/{user_id}')
+
+@app.route('/posts/<int:post_id>')
+def show_a_post(post_id):
+    post = Posts.query.get_or_404(post_id)
+
+    return render_template('post_page.html', post=post)
