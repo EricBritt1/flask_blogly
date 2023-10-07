@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1> {{user.first_name}} {{last_name.id}} </h1>
+<h1> {{user.first_name}} {{user.last_name}} </h1>
 <form action = '/hello/{{user.id}}/edit' method ="POST">
     <label for="First"> First Name:</label>
     <input type="text" name = "First" id = "First" value ="{{user.first_name}}">

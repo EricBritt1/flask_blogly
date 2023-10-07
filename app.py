@@ -50,7 +50,8 @@ def get_users_form_info():
 @app.route('/users/<int:user_id>')
 def show_user(user_id):
     user = Users.query.get_or_404(user_id)
-    posts = Posts.query.all()
+    posts = Posts.query.filter(Posts.user_id==user_id)
+    print(posts)
     return render_template('user-detail.html', user=user, posts=posts)
 
 @app.route('/hello/<int:user_id>/edit')
@@ -71,9 +72,9 @@ def updated_user(user_id):
 
 @app.route('/hello/<int:user_id>/delete', methods = ['GET','POST'])
 def delete_user(user_id):
-    post = Posts.query.get_or_404(user_id)
-    db.session.delete(post)
-    db.session.commit()
+    # post = Posts.query.get_or_404(user_id)
+    # db.session.delete(post)
+    # db.session.commit()
     user = Users.query.get_or_404(user_id)
     db.session.delete(user)
     db.session.commit()
@@ -101,3 +102,27 @@ def show_a_post(post_id):
     post = Posts.query.get_or_404(post_id)
 
     return render_template('post_page.html', post=post)
+
+@app.route('/posts/<int:post_id>/edit')
+def edit_a_post(post_id):
+    post = post = Posts.query.get_or_404(post_id)
+
+    return render_template('edit_post_form.html', post=post)
+
+@app.route('/posts/<int:post_id>/edit', methods = ["POST"])
+def edited_a_post(post_id):
+    post = Posts.query.get_or_404(post_id)
+    post.title = request.form['post_title']
+    post.content = request.form['post_content']
+    db.session.add(post)
+    db.session.commit()
+
+    return redirect(f'/posts/{post_id}')
+
+@app.route('/posts/<int:post_id>/delete', methods = ['POST'])
+def delete_a_post(post_id):
+    post = Posts.query.get_or_404(post_id)
+    db.session.delete(post)
+    db.session.commit()
+
+    return redirect(f'/users/{post.user_id}')

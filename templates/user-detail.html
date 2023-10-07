@@ -8,14 +8,14 @@
 </a>
 
 <form action="http://127.0.0.1:5000/hello/{{user.id}}/delete" method="post">
-<button type ="submit"> Delete </button>     
+<button type ="submit">  Delete </button>     
 </form>
 
 
 <h2> Posts </h2>
 
 <ul>
-        {% for post in user.posts %}
+        {% for post in posts %}
         <li>
                 <a href="http://127.0.0.1:5000/posts/{{post.id}}">
         {{post.title}} {{post.content}} 

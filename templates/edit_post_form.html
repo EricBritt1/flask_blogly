@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1> Edit Post </h1>
+<form action = "/posts/{{post.id}}/edit" method="POST">
+<label for = "post_title"> Title: </label>
+<input type = "text" placeholder="{{post.title}}" name="post_title">
+<label for = "post_content"> Content: </label>
+<input type = "text" placeholder = "{{post.content}}" name = "post_content">
+<button type ="submit"> Edit </button>
+</form>
+<button><a href="/users/{{post.user_id}}"> Cancel </a></button>
+
+
+
+{% endblock %}
