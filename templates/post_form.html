@@ -6,5 +6,10 @@
     <label for="Content"> Content:</label>
     <input type="text" name = "Content" id = "Content">
     <button type="submit"> Create Post! </button>
+    {% for tag in tags %}
+    <br>
+    <label for="Name"> {{tag.name}} </label>
+    <input type = "checkbox" name = "Name" value="{{tag.id}}" id = "tag_{{ tag.id }}">
+    {% endfor %}
 </form>
 {% endblock %}
